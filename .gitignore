@@ -1,2 +1,14 @@
+# Bancos de dados
 estoque.db
+*.sqlite
+*.sqlite3
+*.dump
+
+# Planilhas/Excel
 estoque.xlsx
+*.xls
+*.csv
+
+# Pasta de dados (se houver)
+/dados/
+/backups/
