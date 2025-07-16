@@ -83,6 +83,8 @@ def cadastro_produto(db):
         else:
             print("Entrada inválida! Digite um número.")
     return None
+
+
 def gerenciar_produto(db):
     while True:
         print("\n====== Gerenciamento de Produto ======\n")
@@ -152,6 +154,8 @@ def gerenciar_produto(db):
                     except ValueError:
                         print("Entrada inválida! Tente novamente")
             atualiza_estoque(db)
+
+
         elif opcao == 2:       
             def remover_produto(db):
                 print("\n====== Remover Produto =====\n")
@@ -282,6 +286,28 @@ def produtos(db):
     except sqlite3.Error as e:
         print(f"Erro no banco de dados: {e}")
 
+def estoque_baixo(db):
+    print("="*60)
+    print(" "*10, "ESTOQUE BAIXO")
+    print("="*60)
+
+    try:
+        with sqlite3.connect(db) as conn:
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT * FROM estoque WHERE quantidade < 10")
+            produtos = cursor.fetchall()
+
+            if produtos:
+                for produto in produtos:
+                    print(f"ID: {produto[0]}, Nome: {produto[1]}, Codigo: {produto[2]}, Preço: {produto[3]}, Quantidade: {produto[4]}, Categoria: {produto[5]}")
+            else:
+                print("\nNenhum produto com estoque baixo")
+    except sqlite3.OperationalError as e:
+        print(f"Erro operacional: {e} (verifique se o banco e a tabela existem)")
+    except sqlite3.Error as e:
+        print(f"Erro no banco de dados: {e}")
+
 def planilha(estoque, db):
     print("Criando planilha...")
     try:
@@ -315,7 +341,7 @@ def main():
         interface()
         print("")
         print("-"*23)
-        print("1. Cadastrar Produto\n2. Gerenciar Produto\n3. Consulta de produtos\n4. Produtos\n5. Criar Planilha\n6. Sair")
+        print("1. Cadastrar Produto\n2. Gerenciar Produto\n3. Consulta de produtos\n4. Produtos\n5. Estoque baixo\n6. Criar Planilha\n7. Sair")
         print("-"*23)
 
         opcao = input("Escolha uma opção: ")
@@ -332,8 +358,10 @@ def main():
             elif opcao == 4:
                 produtos(db)
             elif opcao == 5:
-                planilha(estoque,db)
+                estoque_baixo(db)
             elif opcao == 6:
+                planilha(estoque,db)
+            elif opcao == 7:
                 print("Fechando supermarket...")
                 break
             else:
