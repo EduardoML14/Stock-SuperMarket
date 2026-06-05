@@ -1,3 +1,4 @@
+from openpyxl import Workbook
 import pandas as pd
 import sqlite3
 import os
@@ -107,7 +108,7 @@ def gerenciar_produto(db):
                             try:
                                 codigo_produto = input("Digite o código do produto: ")
                                 if not codigo_produto.isdigit():
-                                    print("O código deve ser númerico")
+                                    print("\n\033[91mO código deve ser númerico\033[0m")
                                     continue
 
                                 with sqlite3.connect(db) as conn:
@@ -360,7 +361,7 @@ def main():
             elif opcao == 5:
                 estoque_baixo(db)
             elif opcao == 6:
-                planilha(estoque,db)
+                planilha(estoque, db)
             elif opcao == 7:
                 print("Fechando supermarket...")
                 break
