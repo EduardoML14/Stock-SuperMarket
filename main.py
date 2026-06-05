@@ -109,6 +109,7 @@ def gerenciar_produto(db):
                                 codigo_produto = input("Digite o código do produto: ")
                                 if not codigo_produto.isdigit():
                                     print("\n\033[91mO código deve ser númerico\033[0m")
+                                    
                                     continue
 
                                 with sqlite3.connect(db) as conn:
